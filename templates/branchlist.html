@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <script src="/static/js/bootstrap.bundle.js"></script>
+    <script src="/static/js/jquery-3.7.1.js"></script>
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            <a class="btn btn-info" href={{ url_for('get_branches') }}> Home </a>
+        </div>
+        <div class="col-8">
+            <input id="branch_pattern" type="text" name="search_data">
+        </div>
+        <div class="col-2">
+            <a id="branch_search_button" class="btn btn-info"> Search </a>
+        </div>
+
+    </div>
+
+    <table class="table table-striped">
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>address</th>
+            <th>opendate</th>
+            <th>parent</th>
+        </tr>
+        {% if branches %}
+        {% for branch in branches %}
+        <tr>
+            <td>{{ branch.id }}</td>
+            <td>{{ branch.visible_name }}</td>
+            <td>{{ branch.visible_address }}</td>
+            <td>{{ branch.opendate }}</td>
+            <td>{{ branch.parent }}</td>
+        </tr>
+
+        {% endfor %}
+        {% else %}
+        Empty request
+        {% endif %}
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+
+
+        $('#branch_search_button').click(function (){
+            var search_pattern = $('#branch_pattern').val()
+            console.log(search_pattern)
+
+
+            var my_url = function() {
+                return '{{ url_for('get_branches', pattern='fake_pattern') }}'.replace('fake_pattern', search_pattern)
+            };
+
+            console.log(my_url)
+            $(this).attr("href",my_url)
+
+
+        });
+    });
+
+</script>
+</body>
+</html>
