@@ -10,17 +10,17 @@
 </head>
 <body>
 <div class="container">
-    <div class="row">
+
+    <div class="row mt-2 mb-2">
         <div class="col-1">
             <a class="btn btn-info" href={{ url_for('get_branches') }}> Home </a>
         </div>
-        <div class="col-2">
-            <input id="branch_pattern" type="text" name="search_data">
+        <div class="col-4 m-0 p-0">
+            <input id="branch_pattern" type="text" name="search_data" class="w-100 m-0 p-0" value="{{ search_pattern }}">
         </div>
         <div class="col-2">
             <a id="branch_search_button" class="btn btn-info"> Search </a>
         </div>
-
     </div>
 
     <table class="table table-striped">
@@ -50,17 +50,17 @@
     $(document).ready(function () {
 
 
-        $('#branch_search_button').click(function (){
+        $('#branch_search_button').click(function () {
             var search_pattern = $('#branch_pattern').val()
             console.log(search_pattern)
 
 
-            var my_url = function() {
+            var my_url = function () {
                 return '{{ url_for('get_branches', pattern='fake_pattern') }}'.replace('fake_pattern', search_pattern)
             };
 
             console.log(my_url)
-            $(this).attr("href",my_url)
+            $(this).attr("href", my_url)
 
 
         });

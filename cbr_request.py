@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 # Crimea 2000000267269
 # all 1315037839212
 # Дальневосточный 1315038917989
-def get_branch_info_by_id(internal_bank_id=2000000267269):
+def get_branch_info_by_id(internal_bank_id=1315038917989):
     url = "https://www.cbr.ru/FO_ZoomWS/FinOrg.asmx"
     result = []
 

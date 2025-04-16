@@ -52,10 +52,13 @@ def get_branches(pattern):
 
     context = {
         'branches': result,
+        'search_pattern': pattern,
     }
 
+    # return context
     return render_template('branchlist.html', **context)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
