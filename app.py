@@ -12,7 +12,6 @@ def hello(name=None):
     return render_template('hello1.html', person=name)
 
 
-
 @app.route("/test/")
 def test():
     from cbr_request import get_branch_info_by_id
@@ -35,7 +34,8 @@ def create_data():
 
     return 'Success'
 
-@app.route("/")
+
+@app.route("/", defaults={"pattern": None})
 @app.route("/get_branches/", defaults={"pattern": None})
 @app.route("/get_branches/<pattern>")
 def get_branches(pattern):
