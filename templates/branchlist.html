@@ -47,23 +47,36 @@
     </table>
 </div>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function ()
+    {
 
-
-        $('#branch_search_button').click(function () {
+        $('#branch_search_button').click(function ()
+        {
             var search_pattern = $('#branch_pattern').val()
             console.log(search_pattern)
 
 
-            var my_url = function () {
+            var my_url = function ()
+            {
                 return '{{ url_for('get_branches', pattern='fake_pattern') }}'.replace('fake_pattern', search_pattern)
             };
 
             console.log(my_url)
             $(this).attr("href", my_url)
 
-
         });
+
+
+        document.addEventListener("keydown", function(event)
+        {
+            if (event.key === "Enter")
+            {
+            console.log("clicked");
+              event.preventDefault(); // Предотвращаем стандартное поведение (например, отправку формы)
+              document.getElementById("branch_search_button").click();
+            }
+        });
+
     });
 
 </script>
