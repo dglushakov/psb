@@ -1,0 +1,16 @@
+name: Build
+
+on:
+  push:
+
+jobs:
+  test:
+    name: Install and run
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install requirements.txt
