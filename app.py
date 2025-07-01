@@ -6,23 +6,6 @@ import db as db
 app = Flask(__name__)
 
 
-@app.route('/hello/')
-@app.route('/hello/<name>')
-def hello(name=None):
-    return render_template('hello1.html', person=name)
-
-
-@app.route("/test/")
-def test():
-    from cbr_request import get_branch_info_by_id
-
-    context = {
-        # 'branches': get_branch_info_by_id(),
-    }
-
-    return render_template('branchlist.html', **context)
-
-
 @app.route("/create_data/")
 def create_data():
     db.create_tables()
