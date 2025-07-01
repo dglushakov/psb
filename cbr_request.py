@@ -1,5 +1,16 @@
+from doctest import debug
+
 import requests
 from bs4 import BeautifulSoup
+import logging
+import os
+
+py_logger = logging.getLogger(__name__)
+py_logger.setLevel(logging.DEBUG)
+py_handler = logging.FileHandler(f"logs/{os.path.basename(__file__)}.log", mode='w', encoding='utf-8')
+py_formatter = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
+py_handler.setFormatter(py_formatter)
+py_logger.addHandler(py_handler)
 
 
 # Crimea 2000000267269
@@ -26,10 +37,17 @@ def get_branch_info_by_id(internal_bank_id=1315037839212):
         'Content-Length': str(len(body)),
     }
 
+    py_logger.debug(f"Запрос дочерних подразделений по id = {internal_bank_id}")
+
     response = requests.post(url, data=body, headers=headers)
+    py_logger.debug(f"Request status code = {response.status_code}")
     if response.status_code == 200:
         soup = BeautifulSoup(response.content.decode(), 'lxml')
-        for branch_record in soup.find_all('branchrecord'):
+        branch_records = soup.find_all('branchrecord')
+        py_logger.debug(f"Получено {len(branch_records)} записей")
+        py_logger.debug(branch_records)
+        for branch_record in branch_records:
+            py_logger.debug(f"Исходная запись: {branch_record}")
             new_office = {
                 'internal_id': branch_record.find('id').text,
                 'name': branch_record.find('name').text.lower(),
@@ -39,16 +57,21 @@ def get_branch_info_by_id(internal_bank_id=1315037839212):
                 'opendate': branch_record.find('opendate').text,
                 'parent': branch_record.find('affiliation').text,
             }
-            print('append :', new_office)
+            py_logger.debug(f'Добавляем офис в результирующую выборку : {new_office}')
             result.append(new_office)
             child_branches = None
             if branch_record.find('haschild').string == 'true':
-                print('requesting child branches for id ', branch_record.find('id'), branch_record.find('name'))
                 child_branches = get_branch_info_by_id(branch_record.find('id'))
             if child_branches is not None:
-                print('extend ', child_branches)
+                py_logger.debug(f'extend = {child_branches}')
                 result.extend(child_branches)
     else:
         print(f"Error : {response.status_code}")
 
+    py_logger.debug(f"Результат {len(result)} офисов: {result}")
+    py_logger.debug("Возвращаем результат")
     return result
+
+
+if __name__ == "__main__":
+    get_branch_info_by_id(2000000267269)
