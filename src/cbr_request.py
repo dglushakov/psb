@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import logging
 import os
 
+
 py_logger = logging.getLogger(__name__)
 py_logger.setLevel(logging.DEBUG)
 py_handler = logging.FileHandler(f"logs/{os.path.basename(__file__)}.log", mode='w', encoding='utf-8')
